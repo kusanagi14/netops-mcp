@@ -1,4 +1,4 @@
-"""Self-test cepat: panggil setiap tool dalam MOCK MODE tanpa perangkat nyata."""
+"""Self-test cepat: panggil setiap tool tanpa agent."""
 from __future__ import annotations
 
 import json
@@ -8,6 +8,7 @@ from .clients.catalyst9500 import Catalyst9500Client
 from .clients.catalyst_center import CatalystCenterClient
 from .clients.fortigate import FortiGateClient
 from .config import load_settings
+
 
 def main() -> int:
     settings = load_settings()
@@ -19,6 +20,17 @@ def main() -> int:
         "fortigate_system_status": fg.system_status,
         "fortigate_firewall_policies": fg.firewall_policies,
         "fortigate_interfaces": fg.interfaces,
+        "fortigate_system_resource": fg.system_resource,
+        "fortigate_ha_status": fg.ha_status,
+        "fortigate_routing_table": fg.routing_table,
+        "fortigate_bgp_neighbors": fg.bgp_neighbors,
+        "fortigate_sessions": fg.sessions,
+        "fortigate_vpn_ipsec": fg.vpn_ipsec,
+        "fortigate_vpn_ssl": fg.vpn_ssl,
+        "fortigate_dhcp_leases": fg.dhcp_leases,
+        "fortigate_arp_table": fg.arp_table,
+        "fortigate_policy_hit_count": fg.policy_hit_count,
+        "fortigate_dns_health": fg.dns_health,
         "catalyst9500_version": c95.version,
         "catalyst9500_interfaces": c95.interfaces,
         "catalyst_center_devices": cc.devices,
@@ -39,14 +51,11 @@ def main() -> int:
 
     print("")
     if failures:
-        print(str(failures) + " tool gagal.")
+        print(str(failures) + " tool gagal (lihat di atas).")
         return 1
-
-    print("Contoh output catalyst_center_devices:")
-    print(json.dumps(cc.devices(), indent=2))
-    print("")
     print("Semua tool OK.")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

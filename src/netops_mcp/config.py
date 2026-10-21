@@ -16,6 +16,12 @@ def _as_bool(value: str | None, default: bool) -> bool:
         return default
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
+def _clean(value: str | None) -> str | None:
+    if value is None:
+        return None
+    v = value.strip()
+    return v or None
+
 @dataclass(frozen=True)
 class DeviceConfig:
     name: str
@@ -49,20 +55,20 @@ def load_settings() -> Settings:
 
     fortigate = DeviceConfig(
         name="FortiGate",
-        host=os.getenv("FORTIGATE_HOST"),
-        api_token=os.getenv("FORTIGATE_API_TOKEN"),
+        host=_clean(os.getenv("FORTIGATE_HOST")),
+        api_token=_clean(os.getenv("FORTIGATE_API_TOKEN")),
     )
     catalyst9500 = DeviceConfig(
         name="Catalyst 9500",
-        host=os.getenv("CATALYST9500_HOST"),
-        username=os.getenv("CATALYST9500_USERNAME"),
-        password=os.getenv("CATALYST9500_PASSWORD"),
+        host=_clean(os.getenv("CATALYST9500_HOST")),
+        username=_clean(os.getenv("CATALYST9500_USERNAME")),
+        password=_clean(os.getenv("CATALYST9500_PASSWORD")),
     )
     catalyst_center = DeviceConfig(
         name="Catalyst Center",
-        host=os.getenv("CATALYST_CENTER_HOST"),
-        username=os.getenv("CATALYST_CENTER_USERNAME"),
-        password=os.getenv("CATALYST_CENTER_PASSWORD"),
+        host=_clean(os.getenv("CATALYST_CENTER_HOST")),
+        username=_clean(os.getenv("CATALYST_CENTER_USERNAME")),
+        password=_clean(os.getenv("CATALYST_CENTER_PASSWORD")),
     )
 
     return Settings(
